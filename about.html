@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About · Personal Archive</title>
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{--font:Arial,Helvetica,"PingFang SC","Noto Sans SC","Microsoft YaHei",sans-serif}
+html,body{width:100vw;height:100vh;overflow:hidden;font-family:var(--font);background:#e8e0d5}
+
+.bg-stage{position:fixed;inset:0;z-index:1;background:url('参考图/about.jpg') center/cover no-repeat,#e8e0d5;transition:filter .45s ease}
+.bg-stage::after{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse at center,transparent 50%,rgba(0,0,0,.12) 100%)}
+.bg-stage.dimmed{filter:brightness(.5)}
+
+.obj{position:fixed;z-index:2;cursor:pointer;user-select:none;transition:transform .45s cubic-bezier(.34,1.56,.64,1)}
+.obj:hover{transform:translate(-50%,-50%) scale(1.08)!important}
+.obj img{width:100%;height:100%;object-fit:contain;display:block;filter:drop-shadow(0 4px 10px rgba(0,0,0,.08)) drop-shadow(0 12px 28px rgba(80,60,40,.06));transition:filter .4s}
+.obj:hover img{filter:drop-shadow(0 8px 20px rgba(0,0,0,.15)) drop-shadow(0 16px 36px rgba(80,60,40,.08)) brightness(1.04)}
+
+.popup-overlay{position:fixed;inset:0;z-index:100;display:flex;align-items:center;justify-content:center;opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s}
+.popup-overlay.open{opacity:1;visibility:visible}
+.popup-card{background:rgba(255,255,255,.94);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-radius:18px;box-shadow:0 1px 2px rgba(0,0,0,.03),0 8px 40px rgba(0,0,0,.1);position:relative;padding:2.2rem 2rem;max-height:88vh;overflow-y:auto;font-family:var(--font);color:#2d2926;transform:translateY(20px) scale(.95);transition:transform .4s cubic-bezier(.34,1.56,.64,1)}
+.popup-overlay.open .popup-card{transform:translateY(0) scale(1)}
+.popup-close{position:absolute;top:.7rem;right:.8rem;z-index:5;width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.85rem;color:#aaa;background:rgba(0,0,0,.03);border:none;cursor:pointer;transition:all .2s}
+.popup-close:hover{color:#333;background:rgba(0,0,0,.06)}
+
+.pp-wrap{display:flex;gap:1.8rem;align-items:flex-start}
+.pp-photo{flex-shrink:0;width:200px;border-radius:4px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.1)}
+.pp-photo img{width:100%;display:block}
+.ap-popup h2{font-size:1.5rem;font-weight:700;letter-spacing:-.02em;margin-bottom:.2rem}
+.ap-popup .ap-sub{font-size:.85rem;color:#999;margin-bottom:1.2rem}
+.ap-popup p{font-size:1rem;line-height:1.9;color:#555}
+.pf-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.pf-card{border-radius:10px;overflow:hidden;background:rgba(0,0,0,.02);cursor:pointer;transition:transform .3s}
+.pf-card:hover{transform:translateY(-3px)}
+.pf-card img{width:100%;display:block;aspect-ratio:4/3;object-fit:cover}
+.pf-info{padding:.7rem .8rem}
+.pf-title{font-size:.85rem;font-weight:600}
+.pf-tag{font-size:.68rem;color:#999;margin-top:2px}
+.timeline{position:relative;padding-left:2rem}
+.timeline::before{content:"";position:absolute;left:7px;top:4px;bottom:4px;width:1px;background:repeating-linear-gradient(to bottom,#ccc 0,#ccc 4px,transparent 4px,transparent 10px)}
+.tl-item{position:relative;margin-bottom:1.5rem}
+.tl-item:last-child{margin-bottom:0}
+.tl-dot{position:absolute;left:-1.63rem;top:3px;width:10px;height:10px;border-radius:50%;background:#c9918f;border:2px solid #fff;box-shadow:0 0 0 1px #ddd}
+.tl-date{font-size:.7rem;color:#999;letter-spacing:.06em;margin-bottom:2px}
+.tl-title{font-size:1rem;font-weight:600}
+.tl-desc{font-size:.82rem;color:#666;margin-top:2px;line-height:1.6}
+.tl-tag{display:inline-block;margin-top:4px;font-size:.6rem;letter-spacing:.05em;padding:1px 8px;border-radius:100px;background:rgba(0,0,0,.04);color:#999}
+.bottom-label{position:fixed;bottom:1.5rem;left:50%;transform:translateX(-50%);z-index:3;pointer-events:none;font-size:.65rem;color:rgba(255,255,255,.5);letter-spacing:.1em}
+
+@media(max-width:700px){.pp-wrap{flex-direction:column;align-items:center;text-align:center}.pp-photo{width:140px}.pf-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="bg-stage" id="bgStage"></div>
+
+<div class="obj" style="top:20%;left:13%;width:160px;height:120px;transform:translate(-50%,-50%) rotate(-2deg)" data-popup="letter">
+  <img src="参考图/挂件参考/下载.png" alt="信封">
+</div>
+<div class="obj" style="top:16%;left:75%;width:110px;height:145px;transform:translate(-50%,-50%) rotate(3deg)" data-popup="jar">
+  <img src="参考图/挂件参考/玻璃罐.png" alt="玻璃罐">
+</div>
+<div class="obj" style="top:58%;left:16%;width:150px;height:190px;transform:translate(-50%,-50%) rotate(-3deg)" data-popup="book">
+  <img src="参考图/挂件参考/书本.png" alt="书本">
+</div>
+<div class="obj" style="top:60%;left:74%;width:130px;height:130px;transform:translate(-50%,-50%) rotate(4deg)" data-popup="cat">
+  <img src="参考图/挂件参考/猫咪.png" alt="猫咪">
+</div>
+
+<div class="bottom-label">PERSONAL ARCHIVE · ABOUT</div>
+
+<div class="popup-overlay" id="ov"><div class="popup-card" id="cd"><button class="popup-close" id="cl">✕</button><div id="ct"></div></div></div>
+
+<script>
+;(function(){
+  var bg=document.getElementById('bgStage'),ov=document.getElementById('ov'),ct=document.getElementById('ct'),cd=document.getElementById('cd'),cl=document.getElementById('cl');
+  function reset(){cd.style.maxWidth='';cd.className='popup-card'}
+  var B={
+    letter:function(){reset();cd.style.maxWidth='580px';return'<div class="ap-popup"><div class="pp-wrap"><div class="pp-photo"><img src="https://picsum.photos/400/500?random=1" alt=""></div><div><h2>Digital Archivist</h2><p class="ap-sub">全栈开发者 · 猫咪观察员</p><p>你好，欢迎来到我的数字档案。这里不是展览馆，更像一本被阳光晒暖的旧相册。我在前端与后端之间游走，偶尔用相机捕捉生活里的光影碎片。代码、设计、写作——这些都是我理解世界的方式。</p></div></div></div>'},
+    jar:function(){reset();cd.style.maxWidth='680px';var w=[{img:'https://picsum.photos/600/450?random=10',t:'电商平台重构',g:'React · Node.js · PostgreSQL'},{img:'https://picsum.photos/600/450?random=11',t:'数据可视化仪表盘',g:'D3.js · TypeScript · WebSocket'},{img:'https://picsum.photos/600/450?random=12',t:'移动端 UI 组件库',g:'React Native · Storybook · Figma'},{img:'https://picsum.photos/600/450?random=13',t:'自动化部署流水线',g:'Docker · GitHub Actions · AWS'}];return'<div class="ap-popup"><h2>作品集</h2><p class="ap-sub">一些最近在做的项目</p><div class="pf-grid">'+w.map(function(x){return'<div class="pf-card"><img src="'+x.img+'" alt=""><div class="pf-info"><div class="pf-title">'+x.t+'</div><div class="pf-tag">'+x.g+'</div></div></div>'}).join('')+'</div></div>'},
+    book:function(){reset();cd.style.maxWidth='460px';return'<div class="ap-popup"><h2>来封信吧</h2><p class="ap-sub">期待收到你的消息</p><p>Email: <b>hello@example.com</b><br>GitHub: <b>@digital-archivist</b><br>Twitter: <b>@archivist_d</b></p><p style="font-size:.85rem;color:#999;margin-top:1rem;line-height:1.8">无论是技术讨论、项目合作，还是聊聊最近读到的好书——都期待收到你的消息。</p></div>'},
+    cat:function(){reset();cd.style.maxWidth='520px';var t=[{d:'2025.09 — 至今',t:'高级前端工程师 @ XX科技',c:'负责核心产品前端架构设计，主导组件库重构与性能优化项目。',g:'全职'},{d:'2024.03 — 2025.08',t:'全栈开发实习 @ YY 互联网',c:'参与电商平台后端开发，独立完成订单系统微服务拆分。',g:'实习'},{d:'2022.09 — 2024.06',t:'计算机科学 · 硕士学位',c:'研究方向为前端工程化与 Web 性能优化，发表 2 篇相关论文。',g:'教育'},{d:'2019.09 — 2022.06',t:'软件工程 · 学士学位',c:'GPA 3.8/4.0，获国家奖学金，ACM-ICPC 区域赛银奖。',g:'教育'}];return'<div class="ap-popup"><h2>多米 · 教育 & 经历</h2><p class="ap-sub">一路走来的脚印</p><div class="timeline">'+t.map(function(x){return'<div class="tl-item"><div class="tl-dot"></div><div class="tl-date">'+x.d+'</div><div class="tl-title">'+x.t+'</div><div class="tl-desc">'+x.c+'</div><span class="tl-tag">'+x.g+'</span></div>'}).join('')+'</div></div>'}
+  };
+  function open(id){if(!B[id])return;ct.innerHTML=B[id]();ov.classList.add('open');bg.classList.add('dimmed')}
+  function close(){ov.classList.remove('open');bg.classList.remove('dimmed')}
+  cl.addEventListener('click',close);ov.addEventListener('click',function(e){if(e.target===ov)close()});document.addEventListener('keydown',function(e){if(e.key==='Escape')close()});
+  document.querySelectorAll('.obj[data-popup]').forEach(function(e){e.addEventListener('click',function(ev){ev.stopPropagation();open(e.getAttribute('data-popup'))})});
+  bg.addEventListener('click',function(e){if(e.target===bg)close()});
+})();
+</script>
+</body>
+</html>

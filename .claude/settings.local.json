@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:archive.tiiikiii.com)",
+      "WebSearch",
+      "Bash(curl -s -L --max-time 15 \"https://archive.tiiikiii.com/?era=uncut-gem\")",
+      "Bash(cmd /c \"curl -s -L --max-time 15 https://archive.tiiikiii.com/ 2>&1\")",
+      "Bash(node -e \"const https = require\\('https'\\); https.get\\('https://archive.tiiikiii.com/', {timeout: 15000}, res => { let d=''; res.on\\('data', c => d+=c\\); res.on\\('end', \\(\\) => console.log\\(d.substring\\(0,10000\\)\\)\\); }\\).on\\('error', e => console.log\\('Error:', e.message\\)\\);\")",
+      "Bash(node -e \"const fs=require\\('fs'\\);const f=fs.readFileSync\\('d:/个人网站/index.html','utf8'\\);const opens=\\(f.match\\(/<\\(style|script|section|div|header|footer|nav|body|html\\)\\(?:\\\\s|>\\)/g\\)||[]\\).length;const closes=\\(f.match\\(/<\\\\/\\(style|script|section|div|header|footer|nav|body|html\\)>/g\\)||[]\\).length;console.log\\('Lines:',f.split\\('\\\\n'\\).length\\);console.log\\('Open tags:',opens,'Close tags:',closes\\);console.log\\('data-era attr:',\\(f.match\\(/data-era=/g\\)||[]\\).length\\);console.log\\('tab-panel:',\\(f.match\\(/tab-panel/g\\)||[]\\).length\\);console.log\\('nav links:',\\(f.match\\(/data-tab=/g\\)||[]\\).length\\);console.log\\('Cat paw:',f.includes\\('pawBtn'\\)\\);console.log\\('Web Audio:',f.includes\\('AudioContext'\\)\\);console.log\\('Quotes array:',f.includes\\('randomQuote'\\)\\);\")"
+    ]
+  }
+}
